@@ -57,7 +57,7 @@ pub fn build(project_dir: &str, build_dir: &str) {
 
 fn run_meson(lib: &str, dir: &str) {
     if !is_configured(dir) {
-        run_command(lib, "meson", &[".", dir]);
+        run_command(lib, "meson", &["setup",".", dir]);
     }
     run_command(dir, "ninja", &[]);
 }
