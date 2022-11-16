@@ -67,12 +67,11 @@ fn run_command(dir: &str, name: &str, args: &[&str]) {
     if args.len() > 0 {
         cmd.args(args);
     }
-    let status = cmd.status().expect("cannot run command");
+    let status = cmd.status().expect(format!("cannot run command {name}"));
     assert!(status.success());
 }
 
 fn is_configured(dir: &str) -> bool {
-    let mut path = PathBuf::from(dir);
-    path.push("build.ninja");
+    let mut path = PathBuf::from(dir).join("build.ninja");
     return path.as_path().exists();
 }
