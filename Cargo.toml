@@ -1,8 +1,8 @@
 [package]
-name = "meson"
+name = "meson-next"
 version = "1.0.0"
-authors = ["dovee <dovee@users.noreply.github.com>"]
-description = "A build dependency for meson"
+authors = ["dovee <dovee@users.noreply.github.com>","Brandon Piña"]
+description = "Forked from meson by dovee"
 documentation = "https://docs.rs/meson/1.0.0"
 license = "MIT"
 

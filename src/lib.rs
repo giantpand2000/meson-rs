@@ -45,7 +45,6 @@
 //! shared_library('squid', 'squid.c')
 //! ```
 
-
 use std::path::PathBuf;
 use std::process::Command;
 
@@ -56,7 +55,7 @@ pub fn build(project_dir: &str, build_dir: &str) {
 
 fn run_meson(lib: &str, dir: &str) {
     if !is_configured(dir) {
-        run_command(lib, "meson", &["setup",".", dir]);
+        run_command(lib, "meson", &["setup", "--buildtype", "release", dir]);
     }
     run_command(dir, "ninja", &[]);
 }
@@ -67,11 +66,11 @@ fn run_command(dir: &str, name: &str, args: &[&str]) {
     if args.len() > 0 {
         cmd.args(args);
     }
-    let status = cmd.status().expect(format!("cannot run command {name}"));
+    let status = cmd.status().expect(&format!("cannot run command {name}"));
     assert!(status.success());
 }
 
 fn is_configured(dir: &str) -> bool {
-    let mut path = PathBuf::from(dir).join("build.ninja");
+    let path = PathBuf::from(dir).join("build.ninja");
     return path.as_path().exists();
 }
