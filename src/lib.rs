@@ -45,6 +45,7 @@
 //! shared_library('squid', 'squid.c')
 //! ```
 
+use std::env;
 use std::path::PathBuf;
 use std::process::Command;
 
@@ -55,7 +56,12 @@ pub fn build(project_dir: &str, build_dir: &str) {
 
 fn run_meson(lib: &str, dir: &str) {
     if !is_configured(dir) {
-        run_command(lib, "meson", &["setup", "--buildtype", "release", dir]);
+        let profile: &str = match env::var("PROFILE").unwrap().as_str() {
+            "release" => "release",
+            "debug" => "debug",
+            _ => unreachable!(),
+        };
+        run_command(lib, "meson", &["setup", "--buildtype", profile, dir]);
     }
     run_command(dir, "ninja", &[]);
 }
