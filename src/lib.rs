@@ -45,23 +45,39 @@
 //! shared_library('squid', 'squid.c')
 //! ```
 
+use std::collections::HashMap;
 use std::env;
 use std::path::PathBuf;
 use std::process::Command;
 
 /// Runs meson and/or ninja to build a project.
-pub fn build(project_dir: &str, build_dir: &str) {
-    run_meson(project_dir, build_dir);
+pub fn build(project_dir: &str, build_dir: &str, options: Option<HashMap<&str, &str>>) {
+    run_meson(project_dir, build_dir, options);
 }
 
-fn run_meson(lib: &str, dir: &str) {
+fn run_meson(lib: &str, dir: &str, options: Option<HashMap<&str, &str>>) {
     if !is_configured(dir) {
         let profile: &str = match env::var("PROFILE").unwrap().as_str() {
             "release" => "release",
             "debug" => "debug",
             _ => unreachable!(),
         };
-        run_command(lib, "meson", &["setup", "--buildtype", profile, dir]);
+
+        if let Some(options) = options {
+            let option_strings = options
+                .keys()
+                .into_iter()
+                .map(|key| format!("-D {}={}", key, options.get(key).unwrap()))
+                .fold("".to_owned(), |prev, next| prev + &next + " ");
+
+            run_command(
+                lib,
+                "meson",
+                &["setup", "--buildtype", &option_strings, profile, dir],
+            );
+        } else {
+            run_command(lib, "meson", &["setup", "--buildtype", profile, dir]);
+        }
     }
     run_command(dir, "ninja", &[]);
 }
