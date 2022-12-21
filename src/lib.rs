@@ -73,7 +73,7 @@ fn run_meson(lib: &str, dir: &str, options: Option<HashMap<&str, &str>>) {
             run_command(
                 lib,
                 "meson",
-                &["setup", "--buildtype", &option_strings, profile, dir],
+                &["setup", "--buildtype",  profile, &option_strings, dir],
             );
         } else {
             run_command(lib, "meson", &["setup", "--buildtype", profile, dir]);
