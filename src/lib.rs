@@ -67,7 +67,7 @@ fn run_meson(lib: &str, dir: &str, options: Option<HashMap<&str, &str>>) {
             let option_strings = options
                 .keys()
                 .into_iter()
-                .map(|key| format!("-D {}={}", key, options.get(key).unwrap()))
+                .map(|key| format!("-D{}={}", key, options.get(key).unwrap()))
                 .fold("".to_owned(), |prev, next| prev + &next + " ");
 
             run_command(
