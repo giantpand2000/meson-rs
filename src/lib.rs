@@ -46,9 +46,9 @@
 //! ```
 
 use std::collections::HashMap;
-use std::env;
 use std::path::PathBuf;
 use std::process::Command;
+use std::{env, vec};
 
 /// Runs meson and/or ninja to build a project.
 pub fn build(project_dir: &str, build_dir: &str, options: Option<HashMap<&str, &str>>) {
@@ -63,21 +63,26 @@ fn run_meson(lib: &str, dir: &str, options: Option<HashMap<&str, &str>>) {
             _ => unreachable!(),
         };
 
+        let mut args: Vec<String> = vec!["setup", "--buildtype", profile, dir]
+            .iter()
+            .map(|a| a.to_string())
+            .collect();
+
         if let Some(options) = options {
-            let option_strings = options
+            let options: Vec<String> = options
                 .keys()
                 .into_iter()
                 .map(|key| format!("-D{}={}", key, options.get(key).unwrap()))
-                .fold("".to_owned(), |prev, next| prev + &next + " ");
+                .collect();
 
-            run_command(
-                lib,
-                "meson",
-                &["setup", "--buildtype",  profile, &option_strings, dir],
-            );
-        } else {
-            run_command(lib, "meson", &["setup", "--buildtype", profile, dir]);
-        }
+            for option in options {
+                args.insert(3, option);
+            }
+        } 
+
+        let args:Vec<&str> = args.iter().map(|s|&**s).collect();
+
+        run_command(lib, "meson", &args)
     }
     run_command(dir, "ninja", &[]);
 }
