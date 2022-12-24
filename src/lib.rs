@@ -71,6 +71,7 @@ fn run_meson(lib: &str, dir: &str, config: Config) {
             .map(|a| a.to_string())
             .collect();
 
+        // Apply build options
         if let Some(options) = config.options {
             let options: Vec<String> = options
                 .keys()
@@ -83,6 +84,16 @@ fn run_meson(lib: &str, dir: &str, config: Config) {
             }
         }
 
+        // Apply native file
+        if let Some(native_file) = config.native_file {
+            args.insert(
+                3,
+                native_file.into_os_string().to_str().unwrap().to_string(),
+            );
+            args.insert(3, "--native-file".to_string())
+        }
+
+        // convert owned strings into string slices for run_command
         let args: Vec<&str> = args.iter().map(|s| &**s).collect();
 
         run_command(lib, "meson", &args)
