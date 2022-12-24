@@ -17,13 +17,10 @@ impl Config {
         }
     }
 
-    pub fn options<'a>(
-        &mut self,
-        options: HashMap<impl AsRef<&'a str>, impl AsRef<&'a str>>,
-    ) -> Self {
+    pub fn options<'a>(&mut self, options: HashMap<&'a str, &'a str>) -> Self {
         let options = options
             .into_iter()
-            .map(|(key, value)| (String::from(*key.as_ref()), String::from(*value.as_ref())))
+            .map(|(key, value)| (String::from(key), String::from(value)))
             .collect::<HashMap<String, String>>();
 
         self.options = Some(options);
