@@ -22,10 +22,11 @@
 //! fn main() {
 //!     let build_path = PathBuf::from(env::var("OUT_DIR").unwrap()).join("build");
 //!     let build_path = build_path.to_str().unwrap();
+//!     let config = meson::Config::new()
 //!
 //!     println!("cargo:rustc-link-lib=squid");
 //!     println!("cargo:rustc-link-search=native={}", build_path);
-//!     meson::build("clib", build_path);
+//!     meson::build("clib", build_path,config);
 //! }
 //! ```
 //!
@@ -45,17 +46,19 @@
 //! shared_library('squid', 'squid.c')
 //! ```
 
-use std::collections::HashMap;
 use std::path::PathBuf;
 use std::process::Command;
 use std::{env, vec};
 
+use config::Config;
+pub mod config;
+
 /// Runs meson and/or ninja to build a project.
-pub fn build(project_dir: &str, build_dir: &str, options: Option<HashMap<&str, &str>>) {
-    run_meson(project_dir, build_dir, options);
+pub fn build(project_dir: &str, build_dir: &str, config: Config) {
+    run_meson(project_dir, build_dir, config);
 }
 
-fn run_meson(lib: &str, dir: &str, options: Option<HashMap<&str, &str>>) {
+fn run_meson(lib: &str, dir: &str, config: Config) {
     if !is_configured(dir) {
         let profile: &str = match env::var("PROFILE").unwrap().as_str() {
             "release" => "release",
@@ -68,7 +71,7 @@ fn run_meson(lib: &str, dir: &str, options: Option<HashMap<&str, &str>>) {
             .map(|a| a.to_string())
             .collect();
 
-        if let Some(options) = options {
+        if let Some(options) = config.options {
             let options: Vec<String> = options
                 .keys()
                 .into_iter()
@@ -78,9 +81,9 @@ fn run_meson(lib: &str, dir: &str, options: Option<HashMap<&str, &str>>) {
             for option in options {
                 args.insert(3, option);
             }
-        } 
+        }
 
-        let args:Vec<&str> = args.iter().map(|s|&**s).collect();
+        let args: Vec<&str> = args.iter().map(|s| &**s).collect();
 
         run_command(lib, "meson", &args)
     }
