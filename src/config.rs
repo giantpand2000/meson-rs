@@ -17,19 +17,22 @@ impl Config {
         }
     }
 
-    pub fn options<'a>(&mut self, options: HashMap<&'a str, &'a str>) -> Self {
+    pub fn options<'a>(self, options: HashMap<&'a str, &'a str>) -> Self {
         let options = options
             .into_iter()
             .map(|(key, value)| (String::from(key), String::from(value)))
             .collect::<HashMap<String, String>>();
 
-        self.options = Some(options);
-        self.clone()
+        let mut config = self;
+
+        config.options = Some(options);
+        config
     }
 
-    pub fn native_file(&mut self, native_file: impl AsRef<Path>) -> Self {
+    pub fn native_file(self, native_file: impl AsRef<Path>) -> Self {
         let native_file: PathBuf = native_file.as_ref().into();
-        self.native_file = Some(native_file);
-        self.clone()
+        let mut config = self;
+        config.native_file = Some(native_file);
+        config
     }
 }
