@@ -34,9 +34,14 @@ fn main() {
     build_path.join("build");
     let build_path = build_path.to_str().unwrap();
 
+    let mut options = HashMap::new();
+    options.insert("key", "value");
+
+    let config = meson::Config::new().options(options);
+
     println!("cargo:rustc-link-lib=squid");
     println!("cargo:rustc-link-search=native={}", build_path);
-    meson::build("clib", build_path);
+    meson::build("clib", build_path, config);
 }
 ```
 
