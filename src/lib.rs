@@ -36,7 +36,7 @@
 //! # ...
 //!
 //! [build-dependencies]
-//! meson = "1.0.0"
+//! meson-next = "1"
 //! ```
 //!
 //! meson.build:

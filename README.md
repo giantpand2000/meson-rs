@@ -2,11 +2,11 @@
 
 A build dependency crate for running [Meson](https://mesonbuild.com/index.html) to build a native library.
 
-## Dependencies
-
 This crate is a simple wrapper that invokes the system's meson binary.
 
-Make sure you have both `meson` and `ninja` installed. Refer to [Meson's manual](https://mesonbuild.com/SimpleStart.html) for specific install instructions for your OS.
+Ensure you have both `meson` and `ninja` installed. Refer to [Meson's manual](https://mesonbuild.com/SimpleStart.html) for specific install instructions for your OS.
+
+This crate is a fork of meson 1.0 by dovee, which is abandoned.
 
 ## Build Example
 
@@ -46,7 +46,7 @@ Cargo.toml:
 # ...
 
 [build-dependencies]
-meson = "1.0.0"
+meson-next = "1"
 ```
 
 meson.build:

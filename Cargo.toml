@@ -1,6 +1,6 @@
 [package]
 name = "meson-next"
-version = "1.2.2"
+version = "1.2.3"
 authors = ["dovee <dovee@users.noreply.github.com>", "Brandon Piña"]
 description = "A build dependency crate for running Meson to build a native library"
 documentation = "https://docs.rs/meson-next/latest/meson_next"
