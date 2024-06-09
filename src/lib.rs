@@ -15,7 +15,7 @@
 //! build.rs:
 //!
 //! ```
-//! extern crate meson;
+//! extern crate meson_next as meson;
 //! use std::env;
 //! use std::path::PathBuf;
 //!

@@ -25,7 +25,7 @@ This crate is a fork of meson 1.0 by dovee, which is abandoned.
 build.rs:
 
 ```rust
-extern crate meson;
+extern crate meson_next as meson;
 use std::env;
 use std::path::PathBuf;
 
