@@ -1,9 +1,10 @@
 [package]
 name = "meson-next"
-version = "1.2.2"
-authors = ["dovee <dovee@users.noreply.github.com>","Brandon Piña"]
-description = "Forked from meson by dovee"
-documentation = "https://docs.rs/meson/1.0.0"
+version = "1.2.3"
+authors = ["dovee <dovee@users.noreply.github.com>", "Brandon Piña"]
+description = "A build dependency crate for running Meson to build a native library"
+documentation = "https://docs.rs/meson-next/latest/meson_next"
+repository = "https://github.com/ThatNerdUKnow/meson-rs"
 license = "MIT"
 
 [dependencies]

@@ -15,18 +15,23 @@
 //! build.rs:
 //!
 //! ```
-//! extern crate meson;
+//! extern crate meson_next as meson;
 //! use std::env;
 //! use std::path::PathBuf;
+//! use std::collections::HashMap;
 //!
 //! fn main() {
 //!     let build_path = PathBuf::from(env::var("OUT_DIR").unwrap()).join("build");
 //!     let build_path = build_path.to_str().unwrap();
-//!     let config = meson::Config::new()
+//!
+//!     let mut options = HashMap::new();
+//!     options.insert("key", "value");
+//!
+//!     let config = meson::Config::new().options(options);
 //!
 //!     println!("cargo:rustc-link-lib=squid");
 //!     println!("cargo:rustc-link-search=native={}", build_path);
-//!     meson::build("clib", build_path,config);
+//!     meson::build("clib", build_path, config);
 //! }
 //! ```
 //!
@@ -36,7 +41,7 @@
 //! # ...
 //!
 //! [build-dependencies]
-//! meson = "1.0.0"
+//! meson-next = "1"
 //! ```
 //!
 //! meson.build:
@@ -50,7 +55,7 @@ use std::path::PathBuf;
 use std::process::Command;
 use std::{env, vec};
 
-use config::Config;
+pub use config::Config;
 pub mod config;
 
 /// Runs meson and/or ninja to build a project.
