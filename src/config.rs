@@ -7,6 +7,7 @@ use std::{
 pub struct Config {
     pub options: Option<HashMap<String, String>>,
     pub native_file: Option<PathBuf>,
+    pub install: bool,
 }
 
 impl Config {
@@ -14,7 +15,13 @@ impl Config {
         Config {
             options: None,
             native_file: None,
+            install: false,
         }
+    }
+
+    pub fn install(mut self, val: bool) -> Self {
+        self.install = val;
+        self
     }
 
     pub fn options<'a>(self, options: HashMap<&'a str, &'a str>) -> Self {

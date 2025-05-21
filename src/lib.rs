@@ -103,7 +103,7 @@ fn run_meson(lib: &str, dir: &str, config: Config) {
 
         run_command(lib, "meson", &args)
     }
-    run_command(dir, "ninja", &[]);
+    run_command(dir, "ninja", if config.install { &["install"] } else { &[] });
 }
 
 fn run_command(dir: &str, name: &str, args: &[&str]) {
